@@ -1,7 +1,12 @@
+"use client"
+
+import CreatePost from "./components/AddPost"
+
 export default function Home() {
   return (
     <main>
-      <h1>Next.js sucks so far</h1>
+      <h1>Greetings from Next.js</h1>
+      <CreatePost />
     </main>
   )
 }
