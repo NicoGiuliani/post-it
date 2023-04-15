@@ -8,18 +8,19 @@ import toast from "react-hot-toast"
 export default function CreatePost() {
   const [title, setTitle] = useState("")
   const [isDisabled, setIsDisabled] = useState(false)
+  let toastPostId: string
 
   const { mutate } = useMutation(
     async (title: string) => await axios.post("/api/posts/addPost", { title }),
     {
       onError: (error: any) => {
         if (error instanceof AxiosError) {
-          toast.error(error?.response?.data.message, {})
+          toast.error(error?.response?.data.message, { id: toastPostId })
         }
         setIsDisabled(false)
       },
       onSuccess: (data) => {
-        toast.success("New post has been added")
+        toast.success("New post has been added", { id: toastPostId })
         setTitle('')
         setIsDisabled(false)
       }
@@ -27,6 +28,7 @@ export default function CreatePost() {
 
   const submitPost = async (e: React.FormEvent) => {
     e.preventDefault()
+    toastPostId = toast.loading("Creating post...", { id: toastPostId, duration: 2000 })
     setIsDisabled(true)
     mutate(title)
   }
@@ -36,7 +38,7 @@ export default function CreatePost() {
       <div className="flex flex-col my-4">
         <textarea
           onChange={(e) => setTitle(e.target.value)}
-          placeholder="Whaddup?"
+          placeholder="What's up?"
           className="p-4 text-lg rounded-md my-2 bg-gray-200"
           name="title"
           value={title}></textarea>
