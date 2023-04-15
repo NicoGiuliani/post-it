@@ -17,7 +17,7 @@ export default async function handler(
     })
 
     if (title.length > 300) return res.status(403).json({ message: "Messages must be under 300 characters in length" })
-    if (!title.length) return res.status(403).json({ message: "" })
+    if (!title.length) return res.status(403).json({ message: "Post cannot be empty" })
 
     try {
       const result = await prisma.post.create({
